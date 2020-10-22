@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "906867775902",
+    "firebase_url": "https://tik-tok-flutter.firebaseio.com",
+    "project_id": "tik-tok-flutter",
+    "storage_bucket": "tik-tok-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906867775902:android:fead250e431c46a4fc1e8f",
+        "android_client_info": {
+          "package_name": "com.example.tiktok_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906867775902-v48t35qro3kq65tli956thm1b6jrefi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA285pWmPbKmYQNmYyjiV9NnEEt1dHnJHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906867775902-v48t35qro3kq65tli956thm1b6jrefi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906867775902:android:f570f611c9582db9fc1e8f",
+        "android_client_info": {
+          "package_name": "com.example.tiktokmusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906867775902-v48t35qro3kq65tli956thm1b6jrefi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA285pWmPbKmYQNmYyjiV9NnEEt1dHnJHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906867775902-v48t35qro3kq65tli956thm1b6jrefi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
