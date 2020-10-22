@@ -15,7 +15,7 @@ class MusicUploadScreen extends StatefulWidget {
 class _MusicUploadScreenState extends State<MusicUploadScreen> {
   final musicUpload = MusicUpload();
   String coverImageName;
-  Map songInfo = {'title': null, 'author': null, 'desc': null};
+  Map songInfo = {'title': null, 'author': null, 'desc': null, 'singer': null};
   bool uploadSuccess = false;
 
   void pickupImage() async {
@@ -25,7 +25,13 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
 
   Future handleUploadMusic() async {
     var coverImageUrl = await musicUpload.uploadImage();
-    Music musicSong = Music(title: songInfo['title'], author: songInfo['author'], desc: songInfo['desc'], coverUrl: coverImageUrl);
+    Music musicSong = Music(
+      title: songInfo['title'],
+      author: songInfo['author'],
+      desc: songInfo['desc'],
+      singer: songInfo['singer'],
+      coverUrl: coverImageUrl,
+    );
     await MusicAPI().uploadMusic(musicSong);
     uploadSuccess = true;
   }
@@ -40,6 +46,9 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
         break;
       case 3:
         songInfo['desc'] = text;
+        break;
+      case 4:
+        songInfo['singer'] = text;
         break;
       default:
         break;
@@ -76,6 +85,7 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                     icon: Icon(Icons.send_outlined),
                     onPressed: () {
                       this.handleUploadMusic();
+                      setState(() {});
                     })
               ],
             ),
@@ -105,6 +115,12 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                 handleInfoChange(3, text);
               },
             ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Singer'),
+              onChanged: (text) {
+                handleInfoChange(4, text);
+              },
+            ),
           ]),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -124,17 +140,21 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                 icon: Icon(Icons.upload_outlined),
                 onPressed: () {
                   this.pickupImage();
+                  setState(() {});
                 },
                 tooltip: "Image cover",
               ),
               Text(coverImageName != null ? coverImageName : 'Image cover')
             ],
           ),
-          SizedBox(height: 50,),
-          Text(
-            "Upload your Song successfully!",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 30)
+          SizedBox(
+            height: 50,
           ),
+          Text(uploadSuccess == true ? "Upload your Song successfully!" : "",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontSize: 30)),
         ]),
       ),
     );

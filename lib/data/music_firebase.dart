@@ -39,7 +39,6 @@ class MusicAPI {
 
   Future<bool> uploadMusic(Music music) async {
     music.id = Uuid().v1();
-    music.singerId = "hxtruong";
     print("xxx 006 upload music: $music");
     await FirebaseFirestore.instance.collection("Music").add(music.toJson());
   }

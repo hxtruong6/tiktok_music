@@ -9,7 +9,7 @@ class Music {
   String author;
   String desc;
   String coverUrl;
-  String singerId;
+  String singer;
 
   Music(
       {this.id,
@@ -18,16 +18,16 @@ class Music {
       this.desc,
       this.title,
       this.coverUrl,
-      this.singerId});
+      this.singer});
 
   Music.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     url = json['url'];
-    author = json['artistName'];
+    author = json['author'];
     desc = json['desc'];
     title = json['title'];
     coverUrl = json['coverUrl'];
-    singerId = json['singerId'];
+    singer = json['singer'];
   }
 
   Map<String, dynamic> toJson() {
@@ -38,7 +38,7 @@ class Music {
     data['desc'] = this.desc;
     data['title'] = this.title;
     data['coverUrl'] = this.coverUrl;
-    data['singerId'] = this.singerId;
+    data['singer'] = this.singer;
     return data;
   }
 
