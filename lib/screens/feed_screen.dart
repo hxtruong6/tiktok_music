@@ -514,8 +514,8 @@ class _FeedScreenState extends State<FeedScreen> {
         return MessagesScreen();
       case 3:
         return ProfileScreen();
-      // case 4:
-      //   return MusicUploadScreen();
+      case 4:
+        return MusicUploadScreen();
       default:
         return feedVideos();
     }

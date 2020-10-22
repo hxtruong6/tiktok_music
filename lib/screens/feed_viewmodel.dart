@@ -1,10 +1,7 @@
-// import 'package:audio_manager/audio_manager.dart';
+import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/services.dart';
-import 'package:tiktokmusic/data/music.dart';
 import 'package:tiktokmusic/data/music_firebase.dart';
-import 'package:tiktokmusic/data/videos_firebase.dart';
 import 'package:stacked/stacked.dart';
-import 'package:video_player/video_player.dart';
 
 class FeedViewModel extends BaseViewModel {
   // VideoPlayerController controller;

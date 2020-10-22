@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tiktokmusic/data/music_firebase.dart';
+
 // import 'package:file_picker/file_picker.dart';
 import 'package:tiktokmusic/data/music_upload.dart';
+import 'package:tiktokmusic/data/music.dart';
 
 class MusicUploadScreen extends StatefulWidget {
   MusicUploadScreen({Key key}) : super(key: key);
@@ -10,8 +13,37 @@ class MusicUploadScreen extends StatefulWidget {
 }
 
 class _MusicUploadScreenState extends State<MusicUploadScreen> {
-  final _formKey = GlobalKey<FormState>();
   final musicUpload = MusicUpload();
+  String coverImageName;
+  Map songInfo = {'title': null, 'author': null, 'desc': null};
+
+  void pickupImage() async {
+    var coverName = await musicUpload.pickupImage();
+    coverImageName = coverName;
+  }
+
+  Future handleUploadMusic() async {
+    var coverImageUrl = await musicUpload.uploadImage();
+    Music musicSong = Music(title: songInfo['title'], author: songInfo['author'], desc: songInfo['desc'], coverUrl: coverImageUrl);
+    await MusicAPI().uploadMusic(musicSong);
+  }
+
+  void handleInfoChange(infoType, text) {
+    switch (infoType) {
+      case 1:
+        songInfo['title'] = text;
+        break;
+      case 2:
+        songInfo['author'] = text;
+        break;
+      case 3:
+        songInfo['desc'] = text;
+        break;
+      default:
+        break;
+    }
+    print("xxx 005 songInfo $songInfo");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,52 +68,48 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
-                    // Icon(Icons.arrow_drop_down),
                   ],
                 ),
-                Icon(Icons.send)
+                IconButton(
+                    icon: Icon(Icons.send_outlined),
+                    onPressed: () {
+                      this.handleUploadMusic();
+                    })
               ],
             ),
           ),
           SizedBox(
             height: 50,
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Icon(
-          //       Icons.upload_sharp,
-          //       size: 80,
-          //       color: Colors.black45,
-          //     )
-          //   ],
-          // ),
           Text(
             "Upload your song",
           ),
-          Form(
-              key: _formKey,
-              child: Column(children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Song name'),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Author'),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
-                ),
-                //  TODO: select song
-                // TODO: select image
-              ])),
+          Column(children: <Widget>[
+            TextField(
+              decoration: InputDecoration(labelText: 'Song name'),
+              onChanged: (text) {
+                handleInfoChange(1, text);
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Author'),
+              onChanged: (text) {
+                handleInfoChange(2, text);
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Description'),
+              onChanged: (text) {
+                handleInfoChange(3, text);
+              },
+            ),
+          ]),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.upload_file),
-                onPressed: () {
-                  // musicUpload.pickupSong();
-                },
+                onPressed: () {},
                 tooltip: "Your song",
               ),
               Text('Song')
@@ -92,14 +120,22 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.upload_outlined),
-                onPressed: () {},
+                onPressed: () {
+                  this.pickupImage();
+                },
                 tooltip: "Image cover",
               ),
-              Text('Image cover')
+              Text(coverImageName != null ? coverImageName : 'Image cover')
             ],
           ),
         ]),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    super.dispose();
   }
 }

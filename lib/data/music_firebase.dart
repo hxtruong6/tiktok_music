@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiktokmusic/data/demo_data.dart';
 import 'music.dart';
+import 'package:uuid/uuid.dart';
 
 class MusicAPI {
   List<Music> listSong = List<Music>();
@@ -34,5 +35,12 @@ class MusicAPI {
     for (var song in data) {
       await FirebaseFirestore.instance.collection("Music").add(song);
     }
+  }
+
+  Future<bool> uploadMusic(Music music) async {
+    music.id = Uuid().v1();
+    music.singerId = "hxtruong";
+    print("xxx 006 upload music: $music");
+    await FirebaseFirestore.instance.collection("Music").add(music.toJson());
   }
 }

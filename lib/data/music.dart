@@ -1,6 +1,6 @@
 import 'dart:developer' as developer;
 import 'dart:io';
-// import 'package:audio_manager/audio_manager.dart';
+import 'package:audio_manager/audio_manager.dart';
 
 class Music {
   String id;
@@ -42,17 +42,17 @@ class Music {
     return data;
   }
 
-  // AudioManager musicController = AudioManager.instance;
+  AudioManager musicController = AudioManager.instance;
 
   Future<Null> loadController() async {
     // Initial playback. Preloaded playback information
-    // musicController
-    //     .start(
-    //       this.url,
-    //       this.title,
-    //       desc: this.desc,
-    //       cover: this.coverUrl,
-    //     )
-    //     .then((err) => {developer.log('xxx001 play music error: $err')});
+    musicController
+        .start(
+          this.url,
+          this.title,
+          desc: this.desc,
+          cover: this.coverUrl,
+        )
+        .then((err) => {developer.log('xxx001 play music error: $err')});
   }
 }

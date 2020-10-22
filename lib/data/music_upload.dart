@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 // import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ class MusicUpload {
       FirebaseStorage.instance.ref().child("Music");
   File song;
   File coverImage;
+  String coverName;
   final imagePicker = ImagePicker();
 
   void pickupSong() async {
@@ -20,7 +22,6 @@ class MusicUpload {
     // } else {
     //   // User canceled the picker
     // }
-
   }
 
   Future<String> uploadSong() async {
@@ -31,16 +32,19 @@ class MusicUpload {
     return url;
   }
 
-  void pickupImage() async {
+  Future<String> pickupImage() async {
     final pickedFile = await imagePicker.getImage(source: ImageSource.camera);
-    if (pickedFile!=null) {
+    if (pickedFile != null) {
       this.coverImage = File(pickedFile.path);
+      var arrStr = coverImage.path.split("/");
+      this.coverName = arrStr[arrStr.length - 1];
     }
+    return this.coverName;
   }
 
   Future<String> uploadImage() async {
-    String fileName = coverImage.path;
-    final StorageUploadTask uploadTask = storageRef.child("CoverImage/$fileName").putFile(coverImage);
+    final StorageUploadTask uploadTask =
+        storageRef.child("CoverImages/$coverName").putFile(coverImage);
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     final String url = (await downloadUrl.ref.getDownloadURL());
     print('URL Is $url');
