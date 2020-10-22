@@ -14,7 +14,7 @@ Widget songCard(Music song) {
               },
               child: SizedBox.expand(
                   child: FittedBox(
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 child: SizedBox(
                   // width: video.controller.value.size?.width ?? 0,
                   // height: video.controller.value.size?.height ?? 0,

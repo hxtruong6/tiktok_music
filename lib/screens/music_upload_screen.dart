@@ -21,6 +21,7 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
   void pickupImage() async {
     var coverName = await musicUpload.pickupImage();
     coverImageName = coverName;
+    setState(() {});
   }
 
   Future handleUploadMusic() async {
@@ -34,6 +35,7 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
     );
     await MusicAPI().uploadMusic(musicSong);
     uploadSuccess = true;
+    setState(() {});
   }
 
   void handleInfoChange(infoType, text) {
@@ -85,7 +87,6 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                     icon: Icon(Icons.send_outlined),
                     onPressed: () {
                       this.handleUploadMusic();
-                      setState(() {});
                     })
               ],
             ),
@@ -140,7 +141,6 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
                 icon: Icon(Icons.upload_outlined),
                 onPressed: () {
                   this.pickupImage();
-                  setState(() {});
                 },
                 tooltip: "Image cover",
               ),

@@ -25,6 +25,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final locator = GetIt.instance;
   final feedViewModel = GetIt.instance<FeedViewModel>();
+
   @override
   void initState() {
     // feedViewModel.loadVideo(0);
@@ -459,14 +460,19 @@ class _FeedScreenState extends State<FeedScreen> {
           // itemCount: feedViewModel.videoSource.listVideos.length,
           itemCount: feedViewModel.musicSource.listSong.length,
           onPageChanged: (index) {
-            index = index % (feedViewModel.musicSource.listSong.length); // come back first song if out of list
+            index = index %
+                (feedViewModel.musicSource.listSong
+                    .length); // come back first song if out of list
             feedViewModel.changeSong(index);
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             index = index % (feedViewModel.musicSource.listSong.length);
             // return videoCard(feedViewModel.musicSource.listSong[index]);
-            return songCard(feedViewModel.musicSource.listSong[index]);
+            return SizedBox(
+              width: double.infinity,
+              child: songCard(feedViewModel.musicSource.listSong[index]),
+            );
           },
         ),
         SafeArea(
@@ -520,6 +526,7 @@ class _FeedScreenState extends State<FeedScreen> {
         return feedVideos();
     }
   }
+
   //
   // Widget videoCard(Video video) {
   //   return Stack(
