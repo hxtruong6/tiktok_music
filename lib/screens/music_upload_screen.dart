@@ -16,6 +16,7 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
   final musicUpload = MusicUpload();
   String coverImageName;
   Map songInfo = {'title': null, 'author': null, 'desc': null};
+  bool uploadSuccess = false;
 
   void pickupImage() async {
     var coverName = await musicUpload.pickupImage();
@@ -26,6 +27,7 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
     var coverImageUrl = await musicUpload.uploadImage();
     Music musicSong = Music(title: songInfo['title'], author: songInfo['author'], desc: songInfo['desc'], coverUrl: coverImageUrl);
     await MusicAPI().uploadMusic(musicSong);
+    uploadSuccess = true;
   }
 
   void handleInfoChange(infoType, text) {
@@ -127,6 +129,11 @@ class _MusicUploadScreenState extends State<MusicUploadScreen> {
               ),
               Text(coverImageName != null ? coverImageName : 'Image cover')
             ],
+          ),
+          SizedBox(height: 50,),
+          Text(
+            "Upload your Song successfully!",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 30)
           ),
         ]),
       ),
