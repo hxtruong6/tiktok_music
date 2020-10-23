@@ -19,11 +19,12 @@ class ActionsToolbar extends StatelessWidget {
 // The size of the plus icon under the profile image in follow action
   static const double PlusIconSize = 20.0;
 
-  final String numLikes;
-  final String numComments;
-  final String userPic;
+  final String numLikes = "103";
+  final String numComments = "16";
+  final String userPic =
+      "https://media4.giphy.com/media/SHdwS47nztG2MHCOTH/giphy.gif";
 
-  ActionsToolbar(this.numLikes, this.numComments, this.userPic);
+  ActionsToolbar(interactions);
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +92,12 @@ class ActionsToolbar extends StatelessWidget {
     return Positioned(
         left: (ActionWidgetSize / 2) - (ProfileImageSize / 2),
         child: Container(
-            padding:
-                EdgeInsets.all(1.0), // Add 1.0 point padding to create border
-            height: ProfileImageSize, // ProfileImageSize = 50.0;
-            width: ProfileImageSize, // ProfileImageSize = 50.0;
+            padding: EdgeInsets.all(1.0),
+            // Add 1.0 point padding to create border
+            height: ProfileImageSize,
+            // ProfileImageSize = 50.0;
+            width: ProfileImageSize,
+            // ProfileImageSize = 50.0;
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(ProfileImageSize / 2)),

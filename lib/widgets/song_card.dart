@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:audio_manager/audio_manager.dart';
+import 'package:tiktokmusic/widgets/actions_toolbar.dart';
+import 'package:tiktokmusic/widgets/music_description.dart';
+import 'package:tiktokmusic/widgets/video_description.dart';
 import 'icon_text.dart';
 import '../data/music.dart';
 
@@ -9,25 +12,25 @@ Widget songCard(Music song) {
     children: [
       song.musicController != null
           ? GestureDetector(
-              onTap: () {
-                song.musicController.playOrPause();
-              },
-              child: SizedBox.expand(
-                  child: FittedBox(
-                fit: BoxFit.contain,
-                child: SizedBox(
-                  // width: video.controller.value.size?.width ?? 0,
-                  // height: video.controller.value.size?.height ?? 0,
-                  child: SongWidget(song: song),
-                ),
-              )),
-            )
-          : Container(
-              color: Colors.black,
-              child: Center(
-                child: Text("Loadingd123"),
+        onTap: () {
+          song.musicController.playOrPause();
+        },
+        child: SizedBox.expand(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: SizedBox(
+                // width: video.controller.value.size?.width ?? 0,
+                // height: video.controller.value.size?.height ?? 0,
+                child: SongWidget(song: song),
               ),
-            ),
+            )),
+      )
+          : Container(
+        color: Colors.black,
+        child: Center(
+          child: Text("Loadingd123"),
+        ),
+      ),
       Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -35,9 +38,8 @@ Widget songCard(Music song) {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              // VideoDescription(video.user, video.videoTitle, video.songName),
-              // ActionsToolbar(video.likes, video.comments,
-              //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+              MusicDescription(song),
+              ActionsToolbar(song),
             ],
           ),
           SizedBox(height: 20)
@@ -77,7 +79,10 @@ class SongWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.5,
                 padding: const EdgeInsets.all(7.0),
                 child: Expanded(
                   child: Row(
@@ -88,7 +93,10 @@ class SongWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.4,
                             child: Text(song.title,
                                 style: TextStyle(
                                     fontSize: 13, fontWeight: FontWeight.w700)),
@@ -120,9 +128,9 @@ class SongWidget extends StatelessWidget {
                         onTap: () {
                           song.musicController
                               .start(song.url, song.title,
-                                  desc: song.desc,
-                                  auto: true,
-                                  cover: song.coverUrl)
+                              desc: song.desc,
+                              auto: true,
+                              cover: song.coverUrl)
                               .then((err) {
                             print(err);
                           });
