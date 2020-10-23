@@ -28,11 +28,15 @@ class _FeedScreenState extends State<FeedScreen> {
   Curve pageTurnCurve = Curves.easeIn;
   SuggestIndex songIdx;
 
+  //TODO: Get user from database
+  GestureTracking gestureTracking;
+
   @override
   void initState() {
     feedViewModel.loadSong(0);
     feedViewModel.loadSong(1);
     _pageController = new PageController(initialPage: 0, viewportFraction: 1);
+    gestureTracking = new GestureTracking("hxtruong012");
     super.initState();
   }
 
@@ -49,6 +53,12 @@ class _FeedScreenState extends State<FeedScreen> {
       songIdx.downGesture();
     }
     int indexPage = songIdx.idx % songIdx.n;
+
+    // Tracking write to file
+    gestureTracking.trackingAction(
+        feedViewModel.musicSource.listSong[indexPage].id, message);
+
+    // Change view
     feedViewModel.changeSong(indexPage);
     _pageController.animateToPage(indexPage,
         duration: kTabScrollDuration, curve: Curves.ease);
@@ -120,7 +130,7 @@ class _FeedScreenState extends State<FeedScreen> {
           physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            index = songIdx.idx % songIdx.n;
+            index = index % feedViewModel.musicSource.listSong.length;
             return GestureDetector(
               child: songCard(feedViewModel.musicSource.listSong[index]),
               // Using the DragEndDetails allows us to only fire once per swipe.
