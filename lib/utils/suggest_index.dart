@@ -1,13 +1,26 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+
 class SuggestIndex {
   int prevIdx = 0;
   int idx = 0;
   int n;
 
   SuggestIndex(int n, int index) {
-    n = n;
-    idx = index;
+    this.n = n;
+    this.idx = index;
+  }
+
+  setProperites({@required n, index}) {
+    this.n = n;
+    this.idx = index;
+  }
+
+  int index() {
+    prevIdx = idx;
+    idx = (idx + 1) % n;
+    return idx;
   }
 
   int upGesture() {

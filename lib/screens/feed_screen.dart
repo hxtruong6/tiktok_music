@@ -5,6 +5,8 @@ import 'package:tiktokmusic/screens/messages_screen.dart';
 import 'package:tiktokmusic/screens/music_upload_screen.dart';
 import 'package:tiktokmusic/screens/profile_screen.dart';
 import 'package:tiktokmusic/screens/search_screen.dart';
+import 'package:tiktokmusic/utils/gesture_tracking.dart';
+import 'package:tiktokmusic/utils/suggest_index.dart';
 import 'package:tiktokmusic/widgets/bottom_bar.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
@@ -21,13 +23,39 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final locator = GetIt.instance;
   final feedViewModel = GetIt.instance<FeedViewModel>();
+  PageController _pageController;
+  Duration pageTurnDuration = Duration(milliseconds: 300);
+  Curve pageTurnCurve = Curves.easeIn;
+  SuggestIndex songIdx;
 
   @override
   void initState() {
     feedViewModel.loadSong(0);
     feedViewModel.loadSong(1);
-
+    _pageController = new PageController(initialPage: 0, viewportFraction: 1);
     super.initState();
+  }
+
+  Future changePage(String message) async {
+    print(message);
+    if (songIdx == null || songIdx.n == null) _createIndex();
+    if (message == "R") {
+      songIdx.rightGesture();
+    } else if (message == "L") {
+      songIdx.leftGesture();
+    } else if (message == "U") {
+      songIdx.upGesture();
+    } else if (message == "D") {
+      songIdx.downGesture();
+    }
+    int indexPage = songIdx.idx % songIdx.n;
+    feedViewModel.changeSong(indexPage);
+    _pageController.animateToPage(indexPage,
+        duration: kTabScrollDuration, curve: Curves.ease);
+  }
+
+  void _createIndex() {
+    songIdx = new SuggestIndex(feedViewModel.musicSource.listSong.length, 0);
   }
 
   @override
@@ -81,23 +109,37 @@ class _FeedScreenState extends State<FeedScreen> {
     return Stack(
       children: [
         PageView.builder(
-          controller: PageController(
-            initialPage: 0,
-            viewportFraction: 1,
-          ),
+          controller: _pageController,
           itemCount: feedViewModel.musicSource.listSong.length,
-          onPageChanged: (index) {
-            index = index %
-                (feedViewModel.musicSource.listSong
-                    .length); // come back first song if out of list
-            feedViewModel.changeSong(index);
-          },
+          // onPageChanged: (index) {
+          //   index =
+          //       songIdx.idx % songIdx.n; // come back first song if out of list
+          //   feedViewModel.changeSong(index);
+          //   print("xxx 010 Pagechange: $index");
+          // },
+          physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            index = index % (feedViewModel.musicSource.listSong.length);
-            return SizedBox(
-              width: double.infinity,
+            index = songIdx.idx % songIdx.n;
+            return GestureDetector(
               child: songCard(feedViewModel.musicSource.listSong[index]),
+              // Using the DragEndDetails allows us to only fire once per swipe.
+              onHorizontalDragEnd: (dragEndDetails) {
+                if (dragEndDetails.primaryVelocity < 0) {
+                  // Page forwards
+                  changePage("L");
+                } else if (dragEndDetails.primaryVelocity > 0) {
+                  // Page backwards
+                  changePage("R");
+                }
+              },
+              onVerticalDragEnd: (dragEndDetails) {
+                if (dragEndDetails.primaryVelocity < 0) {
+                  changePage("U");
+                } else if (dragEndDetails.primaryVelocity > 0) {
+                  changePage("D");
+                }
+              },
             );
           },
         ),

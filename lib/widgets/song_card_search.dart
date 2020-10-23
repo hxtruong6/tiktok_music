@@ -7,52 +7,10 @@ import 'package:tiktokmusic/widgets/video_description.dart';
 import 'icon_text.dart';
 import '../data/music.dart';
 
-Widget songCard(Music song) {
-  return Stack(
-    children: [
-      song.musicController != null
-          ? GestureDetector(
-        onTap: () {
-          song.musicController.playOrPause();
-        },
-        child: SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: SizedBox(
-                // width: video.controller.value.size?.width ?? 0,
-                // height: video.controller.value.size?.height ?? 0,
-                child: SongWidget(song: song),
-              ),
-            )),
-      )
-          : Container(
-        color: Colors.black,
-        child: Center(
-          child: Text("Loadingd123"),
-        ),
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              MusicDescription(song),
-              ActionsToolbar(song),
-            ],
-          ),
-          SizedBox(height: 20)
-        ],
-      ),
-    ],
-  );
-}
-
-class SongWidget extends StatelessWidget {
+class SearchedSongWidget extends StatelessWidget {
   final Music song;
 
-  SongWidget({@required this.song});
+  SearchedSongWidget({@required this.song});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +18,7 @@ class SongWidget extends StatelessWidget {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: Row(
           children: <Widget>[
             ClipRRect(
               // child: Image(
@@ -85,7 +43,7 @@ class SongWidget extends StatelessWidget {
                     .width * 0.5,
                 padding: const EdgeInsets.all(7.0),
                 child: Expanded(
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(

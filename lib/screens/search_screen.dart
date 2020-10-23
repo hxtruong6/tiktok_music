@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktokmusic/data/music_firebase.dart';
 import 'package:tiktokmusic/data/music.dart';
 import 'package:fuzzy/fuzzy.dart';
-import 'package:tiktokmusic/widgets/song_card.dart';
+import 'package:tiktokmusic/widgets/song_card_search.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key key}) : super(key: key);
@@ -121,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (BuildContext ctxt, int Index) {
                         var song = musicSource?.listSong[filteredIdx[Index]];
                         print(song?.title);
-                        return new SongWidget(song: song);
+                        return new SearchedSongWidget(song: song);
                       })),
             ])));
   }

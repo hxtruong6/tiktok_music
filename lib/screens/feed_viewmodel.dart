@@ -36,12 +36,11 @@ class FeedViewModel extends BaseViewModel {
   // }
 
   changeSong(index) async {
-    // musicSource.listSong[prevSong].musicController.toPause();
-    // if (musicSource.listSong[index].musicController == null) {
-    //   await musicSource.listSong[index].loadController();
-    // }
-    //
-    // musicSource.listSong[index].musicController.toPlay();
+    musicSource.listSong[prevSong].musicController.toPause();
+    if (musicSource.listSong[index].musicController == null) {
+      await musicSource.listSong[index].loadController();
+    }
+    musicSource.listSong[index].musicController.toPlay();
 
     // videoSource.listVideos[prevVideo].controller.removeListener(() {});
     //videoSource.listVideos[prevVideo].controller.dispose();
